@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Web Dev Text</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      font-family: 'Outfit', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Animated background particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: float 15s infinite ease-in-out;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      text-align: center;
+      z-index: 10;
+      position: relative;
+    }
+
+    /* Main animated text */
+    .animated-text {
+      font-size: clamp(3rem, 10vw, 8rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      position: relative;
+      display: inline-block;
+    }
+
+    .word {
+      display: inline-block;
+      margin: 0 0.2em;
+    }
+
+    .letter {
+      display: inline-block;
+      position: relative;
+      color: transparent;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: letterReveal 7s ease-out forwards;
+      opacity: 0;
+      transform: translateY(50px) rotateX(90deg);
+    }
+
+    @keyframes letterReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(50px) rotateX(90deg);
+      }
+
+      60% {
+        transform: translateY(-10px) rotateX(0deg);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+      }
+    }
+
+    /* Glowing effect after reveal */
+    .letter::after {
+      content: attr(data-letter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: transparent;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      filter: blur(15px);
+      opacity: 0;
+      animation: glow 10s ease-in-out infinite;
+      animation-delay: inherit;
+    }
+
+    @keyframes glow {
+
+      0%,
+      100% {
+        opacity: 0.3;
+        filter: blur(15px);
+      }
+
+      50% {
+        opacity: 0.6;
+        filter: blur(20px);
+      }
+    }
+
+    /* Subtle floating animation */
+    .word:nth-child(1) {
+      animation: softFloat 20s ease-in-out infinite;
+      animation-delay: 12s;
+    }
+
+    .word:nth-child(2) {
+      animation: softFloat 20s ease-in-out infinite;
+      animation-delay: 13s;
+    }
+
+    @keyframes softFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* Subtitle */
+    .subtitle {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 2rem;
+      letter-spacing: 0.3em;
+      opacity: 0;
+      animation: fadeSlideUp 4s ease-out forwards;
+      animation-delay: 10s;
+    }
+
+    @keyframes fadeSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Email link styling */
+    .email-link {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      padding: 0.8rem 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      animation: fadeSlideUp 3s ease-out forwards;
+      animation-delay: 12s;
+      transition: all 0.4s ease;
+    }
+
+    .email-link:hover {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-color: transparent;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Decorative line */
+    .line-decoration {
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #667eea, #764ba2, #f093fb, transparent);
+      margin: 2rem auto;
+      animation: expandLine 5s ease-out forwards;
+      animation-delay: 9s;
+    }
+
+    @keyframes expandLine {
+      0% {
+        width: 0;
+      }
+
+      100% {
+        width: min(400px, 80vw);
+      }
+    }
+
+    /* Cursor blink effect */
+    .cursor {
+      display: inline-block;
+      width: 4px;
+      height: 1.2em;
+      background: #f093fb;
+      margin-left: 0.2em;
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
+      opacity: 0;
+      animation: cursorAppear 2s ease-out forwards, blink 2s step-end infinite;
+      animation-delay: 11s, 11s;
+    }
+
+    @keyframes blink {
+
+      0%,
+      50% {
+        opacity: 1;
+      }
+
+      51%,
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes cursorAppear {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    /* Hover effect on letters */
+    .letter {
+      transition: transform 0.3s ease, filter 0.3s ease;
+      cursor: default;
+    }
+
+    .letter:hover {
+      transform: translateY(-10px) scale(1.1);
+      filter: brightness(1.3);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating particles background -->
+  <div class="particles" id="particles"></div>
+
+  <div class="container">
+    <div class="animated-text">
+      <span class="word" id="word1"></span>
+      <span class="word" id="word2"></span>
+      <span class="cursor"></span>
+    </div>
+    <div class="line-decoration"></div>
+    <p class="subtitle">Creating Digital Experiences</p>
+    <a href="https://linkedin.com/in/sagrikathakur" target="_blank" class="email-link">LinkedIn</a>
+  </div>
+
+  <script>
+    // Create floating particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const particleCount = 50;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+        particle.style.width = (2 + Math.random() * 4) + 'px';
+        particle.style.height = particle.style.width;
+        container.appendChild(particle);
+      }
+    }
+
+    // Animate letters with staggered delay
+    function animateText(word, elementId, baseDelay) {
+      const container = document.getElementById(elementId);
+      const letters = word.split('');
+
+      letters.forEach((letter, index) => {
+        const span = document.createElement('span');
+        span.className = 'letter';
+        span.textContent = letter;
+        span.setAttribute('data-letter', letter);
+        span.style.animationDelay = (baseDelay + index * 0.8) + 's';
+        container.appendChild(span);
+      });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      animateText('WEB', 'word1', 1);
+      animateText('DEV', 'word2', 4);
+    });
+  </script>
+</body>
+
+</html>
